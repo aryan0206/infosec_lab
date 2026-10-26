@@ -1,0 +1,51 @@
+"""Question A: copy this file alone. Textbook RSA, educational only."""
+import math
+def prime(n):
+    return n>=2 and all(n%d for d in range(2,math.isqrt(n)+1))
+def parameters():
+    mode=input('Supplied values: 1 = p,q,e; 2 = N,e,d: ').strip()
+    if mode=='1':
+        p=int(input('Exam prime p: ')); q=int(input('Exam prime q: ')); e=int(input('Exam public exponent e: '))
+        if p==q or not prime(p) or not prime(q): raise ValueError('p and q must be distinct primes')
+        phi=(p-1)*(q-1)
+        if not 1<e<phi or math.gcd(e,phi)!=1: raise ValueError('e must be coprime to phi')
+        return p*q,e,pow(e,-1,phi)
+    if mode=='2':
+        N=int(input('Exam RSA modulus N: '));e=int(input('Exam public exponent e: '));d=int(input('Exam private exponent d: '))
+        if N<4 or e<=1 or d<=1:raise ValueError('Invalid RSA values')
+        if any(pow(pow(m,e,N),d,N)!=m for m in range(1,min(N,30))):raise ValueError('Parameters fail sample round trips')
+        return N,e,d
+    raise ValueError('Choose 1 or 2')
+def multiply_ciphertexts(c1,c2,N): return c1*c2%N
+def run(N,e,d):
+    a=int(input('Number of boxes (1..N-1): ')); b=int(input('Cost per box (1..N-1): '))
+    if not(1<=a<N and 1<=b<N): raise ValueError('Both inputs must lie in 1..N-1')
+    c1,c2=pow(a,e,N),pow(b,e,N)
+    if pow(c1,d,N)!=a or pow(c2,d,N)!=b:
+        raise ValueError('Private exponent does not decrypt the entered inputs')
+    combined=multiply_ciphertexts(c1,c2,N)
+    decrypted=pow(combined,d,N); expected=a*b%N
+    print(f'Encrypted inputs (hex): {hex(c1)}, {hex(c2)}; encrypted product mod N (hex): {hex(combined)}')
+    print(f'Decrypted result modulo N: {decrypted}; expected modulo N: {expected}; ordinary product: {a*b}')
+    if decrypted==expected:
+        print(f'Modular homomorphic equality verified: {decrypted} == {expected} (mod {N}).')
+    else:
+        print(f'Modular homomorphic equality not verified: {decrypted} != {expected} (mod {N}).')
+    if decrypted==a*b:
+        print(f'Ordinary product verified: {a*b}.')
+    else:
+        print(f'Ordinary product not verified: decrypted {decrypted} != {a*b}; multiplication wraps modulo {N}.')
+def main():
+    key=None
+    while True:
+        print('\n1. Enter exam RSA parameters  2. Multiply encrypted values  0. Exit')
+        choice=input('Choice: ').strip()
+        try:
+            if choice=='0': return
+            if choice=='1': key=parameters(); print('N =',key[0])
+            elif choice=='2':
+                if key is None: print('Enter parameters first.')
+                else: run(*key)
+            else: print('Invalid option.')
+        except ValueError as exc: print('Input error:',exc)
+if __name__=='__main__': main()

@@ -1,0 +1,3 @@
+# Additional manual tools (p. 68)
+
+GnuPG and Snort appear as **additional questions** in Lab 8. They are external tools, not implemented by this Python toolkit. On a machine with GnuPG, practise `gpg --full-generate-key`, `gpg --encrypt --recipient RECIPIENT FILE`, `gpg --decrypt FILE.gpg`, `gpg --detach-sign FILE`, and `gpg --verify FILE.sig FILE`; verify recipients and key fingerprints before claiming identity. Snort needs a local installation, interface permissions, rules and test traffic. Record the exact rule, alert and packet evidence. No claim of a working Snort exercise is made here because these tools are unavailable in the supplied Python environment.

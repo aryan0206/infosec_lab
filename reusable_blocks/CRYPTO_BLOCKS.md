@@ -1,0 +1,5 @@
+# Copy map for reusable blocks
+
+Use the actual tested functions in `core.py`. `canonical()` defines sorted, compact UTF-8 JSON for signatures. `aes_encrypt/decrypt` use AES-GCM; `cbc_encrypt/decrypt` use AES-256-CBC and PKCS7. `rsa_sign/verify` use RSA-PSS with SHA-256; `rsa_wrap/unwrap` use RSA-OAEP with SHA-256. `rsa_product` and `rsa_multiply_encrypted` are raw RSA arithmetic for Lab 7 only. `paillier_encrypt/add/decrypt` handle additive homomorphism. `elgamal_sign_digest/verify_digest` are toy-group educational signatures. `store.py` serializes keys/ciphertexts for persistence.
+
+Data flow: string -> UTF-8 bytes -> AES -> Base64 JSON. Record -> canonical bytes -> digest/signature; verify same bytes before decrypt. Paillier amount -> ciphertext integer -> ciphertext multiplication -> one final decrypt. For roles, the menu calls only permitted methods; no account authentication is provided. `standalone_submissions/` has self-contained arithmetic files. Integrated files cannot be copied alone without bundling their imports.

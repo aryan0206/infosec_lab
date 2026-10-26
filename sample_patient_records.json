@@ -1,0 +1,4 @@
+[
+  {"Patient_id":"DEMO-01","Patient_name":"Asha","Diagnosis":"Diabetes","Blood_glucose":112,"Treatment":"Diet review"},
+  {"Patient_id":"DEMO-02","Patient_name":"Ravi","Diagnosis":"Hypertension","Blood_glucose":91,"Treatment":"Follow-up"}
+]
