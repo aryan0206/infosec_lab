@@ -78,7 +78,23 @@ class NavigationReadinessTests(unittest.TestCase):
         result=subprocess.run(['cmd','/c',str(ROOT/'START_TOOLKIT.bat')],cwd=ROOT,
                               input='0\n\n',text=True,capture_output=True,timeout=20,env=environment)
         self.assertEqual(result.returncode,0,result.stdout+result.stderr)
-        self.assertIn('Python executable:',result.stdout)
-        self.assertIn('terminal submission guide',result.stdout)
+        self.assertIn('Check examination PC readiness',result.stdout)
+        self.assertIn('EXAM PC TOOLKIT',result.stdout)
+
+    def test_new_copy_and_missing_warning(self):
+        import ast
+        import tempfile
+        with tempfile.TemporaryDirectory() as d, patch('exam_router.OUTPUT',Path(d)):
+            item=exam_router.SUBMISSIONS[0]
+            target,checklist=exam_router.create_submission(item,'Multiply RSA encrypted boxes and cost with Schnorr signature')
+            self.assertTrue(target.is_file())
+            self.assertTrue(checklist.is_file())
+            self.assertIn('Schnorr signatures are not supplied',checklist.read_text(encoding='utf-8'))
+            tree=ast.parse(target.read_text(encoding='utf-8'))
+            self.assertFalse(any(isinstance(node,ast.ImportFrom) and node.module in {'core','store'} for node in ast.walk(tree)))
+            run=subprocess.run([sys.executable,'-B',str(target)],cwd=d,input='1\n1\n5\n11\n3\n2\n2\n3\n0\n',
+                               text=True,capture_output=True,timeout=15)
+            self.assertEqual(run.returncode,0,run.stderr)
+            self.assertIn('Ordinary product verified: 6',run.stdout)
 
 if __name__=='__main__':unittest.main()

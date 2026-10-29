@@ -1,0 +1,5 @@
+ZIP: IS_Lab_Endsem_Portable.zip
+Files: 67
+Extracted-copy smoke: PASSED
+Wheelhouse included: True
+Host Python: 3.12.14

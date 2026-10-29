@@ -11,13 +11,13 @@ def install_command():
 
 def inspect_environment(require_cryptography=False):
     errors=[]
-    if sys.version_info<(3,10):errors.append('Python 3.10 or newer is required')
+    if not (3,10)<=sys.version_info[:2]<=(3,14):errors.append('Supported CPython versions are 3.10 through 3.14; use 3.12 if available')
     if require_cryptography:
         try:
             import cryptography
             from cryptography.hazmat.primitives.ciphers.aead import AESGCM
             version=tuple(int(piece) for piece in cryptography.__version__.split('.')[:2])
-            if version<(41,0):errors.append('cryptography>=41 is required; install with: '+install_command())
+            if not (41,0)<=version<(51,0):errors.append('cryptography>=41,<51 is required; install with: '+install_command())
         except (ImportError,ValueError) as exc:
             errors.append(f'cryptography is missing or unusable ({exc}); install with: {install_command()}')
     return errors
@@ -37,7 +37,7 @@ def main():
             print('RSA product is available; cryptography-dependent submissions are unavailable:')
             for error in dependency_errors:print('  ',error)
         else:print('cryptography: ready')
-    print('READY: run',subprocess.list2cmdline([sys.executable,'-B',str(ROOT/'exam_router.py')]))
+    print('READY: run',subprocess.list2cmdline([sys.executable,'-B',str(ROOT/'master_builder.py')]))
     return 0
 
 if __name__=='__main__':raise SystemExit(main())

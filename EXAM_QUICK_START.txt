@@ -1,0 +1,33 @@
+IS LAB ENDSEM - QUICK START (Windows)
+
+1. Extract the ENTIRE ZIP to a writable folder. Do not run it inside the ZIP.
+2. Double-click START_TOOLKIT.bat. Choose 1 to check this exam PC.
+3. If it says READY, choose 3 to open the builder.
+4. If cryptography is missing, choose 2 to set up a local .venv. Choose the
+   offline wheelhouse only if this ZIP includes wheelhouse/ and its manifest
+   matches this PC's Windows architecture and Python minor version.
+5. Choose a solution family and Basic, Full or Custom features. A hash-only
+   Custom build needs no third-party package. Review the companion checklist.
+6. New .py files and checklists go into exam_output/. Runtime records and keys
+   go into exam_output/demo_data/<generated filename>/ after running.
+7. The builder offers to run the submission and validation tests. Use main
+   menu 4 to open exam_output later.
+
+If Python is absent or outside CPython 3.10-3.14, the BAT reports NOT READY.
+Python cannot be installed with pip. Before the exam, arrange a permitted
+user-local CPython 3.12 installation with pip and venv. Ask the exam staff
+whether external runtime installation and carried wheel files are allowed.
+Do not copy .venv between PCs. Recreate it with setup option 2 on the target PC.
+The official Windows Python embeddable ZIP lacks pip and is not an automatic
+replacement for a full installation.
+
+Included: BAT launchers, Python builder and components, existing standalone
+templates, tests, requirements.txt, documentation, and this guide. wheelhouse/
+is included only when explicitly prepared and verified for a named target.
+No existing exam_output data, keys, virtual environment or runtime executable
+is packed.
+
+Final check on exam PC: START_TOOLKIT.bat option 1, then generate a practice
+Custom hash-only submission, run it, and choose validation tests. For AES/RSA/
+Paillier use setup option 2 first and re-run readiness. Read
+COMPATIBILITY_MATRIX.md and COMPONENT_CATALOG.md for exact limits.
